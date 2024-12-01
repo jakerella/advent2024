@@ -1,0 +1,27 @@
+#!/usr/bin/php
+<?php
+error_reporting(E_ERROR | E_PARSE);
+if (php_sapi_name() !== 'cli') { exit; }
+
+require __DIR__ . '/vendor/autoload.php';
+
+use Advent\Logger;
+
+spl_autoload_register(function ($class) {
+    $file = "lib/$className.php";
+    if (file_exists($file)) {
+        include $file;
+    } else {
+        throw new Error("Unable to load class, $class does not exist");
+    }
+});
+
+$day = "Advent\Day00";
+if (isset($argv[1])) {
+    $day = "Advent\Day" . $argv[1];
+}
+
+Logger::debug("Running with input: {$argv[1]}");
+
+$day = new $day();
+$day->run($argv[2]);

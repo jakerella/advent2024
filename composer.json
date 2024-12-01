@@ -1,0 +1,16 @@
+{
+    "name": "jordan/advent2024",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jordan Kasper"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Advent\\": "lib/"
+        }
+    }
+}
