@@ -14,6 +14,14 @@ class Logger
         self::doLogging('log', $message);
     }
 
+    public static function warn($message) {
+        self::doLogging('warn', $message);
+    }
+
+    public static function error($message) {
+        self::doLogging('error', $message);
+    }
+
     private static function doLogging($level, $message) {
         if (self::checkLevel($level)) {
             echo "$message\n";

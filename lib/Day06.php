@@ -1,5 +1,4 @@
 <?php
-
 namespace Advent;
 
 use Advent\Logger;
@@ -14,79 +13,71 @@ class Day06
         $pos = [];
         $map = [];
         $visited = [];
-        $visited_with_dir = [];
         foreach ($lines as $y => $line) {
             $map[$y] = str_split($line);
+            array_pop($map[$y]);
             foreach ($map[$y] as $x => $spot) {
                 if ($spot == '^') {
                     $pos[0] = $y;
                     $pos[1] = $x;
                     Logger::log("starting at [$y, $x]");
                     array_push($visited, "$y,$x");
-                    $visited_with_dir["{$y},{$x}"] = ['N'];
                 }
             }
         }
+        $start_pos = $pos;
 
         $loop_count = 0;
-        $turn_dir = array('N'=>'E', 'E'=>'S', 'S'=>'W', 'W'=>'N');
         while (true) {
             $next = Day06::next_spot($map, $dir, $pos);
             if ($next == null) {
                 break;
             } else {
-                // see if we can block the way and create a loop (part 2)
-                if (Day06::check_for_overlap($map, $visited_with_dir, $pos, $turn_dir[$next[2]], [$pos[0], $pos[1]])) {
-                    // Logger::log("found overlap if blocking [{$next[0]}, {$next[1]}]");
-                    $loop_count++;
-                }
-                
                 $pos = [$next[0], $next[1]];
                 $dir = $next[2];
                 if (array_search($pos[0].",".$pos[1], $visited) === false) {
                     array_push($visited, $pos[0].",".$pos[1]);
                 }
-                if (!isset($visited_with_dir["{$pos[0]},{$pos[1]}"])) {
-                    $visited_with_dir["{$pos[0]},{$pos[1]}"] = [];
-                }
-                if (array_search($dir, $visited_with_dir["{$pos[0]},{$pos[1]}"]) === false) {
-                    array_push($visited_with_dir["{$pos[0]},{$pos[1]}"], $dir);
-                }
             }
         }
         $count = count($visited);
-        // $path = json_encode($visited);
-        // $dirs = json_encode($visited_with_dir);
-        // Logger::log("PATH:\n$path");
-        // Logger::log("DIRS:\n$dirs");
         Logger::log("Part 1: $count");
 
-        // 1433 too low
+
+        $loop_count = 0;
+        foreach ($map as $y => $row) {
+            foreach ($map[$y] as $x => $col) {
+                if ($map[$y][$x] == '#') { continue; }
+                $newMap = $map;
+                $newMap[$y][$x] = '#';
+                if (Day06::check_for_loop($newMap, $start_pos)) {
+                    $loop_count++;
+                }
+            }
+        }
+
         Logger::log("Part 2: $loop_count");
     }
 
-    private static function check_for_overlap($map, $visited, $pos, $dir, $start) {
-        $turn_dir = array('N'=>'E', 'E'=>'S', 'S'=>'W', 'W'=>'N');
-        $y = $pos[0];
-        $x = $pos[1];
+    private static function check_for_loop($map, $pos) {
+        $curr = $pos;
+        $visited = array("{$curr[0]},{$curr[1]}"=>['N']);
+        $dir = 'N';
         while (true) {
-            if ($dir == 'N') { $y--; }
-            if ($dir == 'E') { $x++; }
-            if ($dir == 'S') { $y++; }
-            if ($dir == 'W') { $x--; }
-            if ($y < 0 || $y > count($map)-1 || $x < 0 || $x > count($map[0])-1) {
+            $next = Day06::next_spot($map, $dir, $curr);
+            if ($next == null) {
                 return false;  // off the map
-            }
-            if ($y == $start[0] && $x == $start[1]) {
-                return true;  // back where we started, so created a new loop
-            }
-            if ($map[$y][$x] == '#') {
-                // turn and keep checking
-                return Day06::check_for_overlap($map, $visited, [$y,$x], $turn_dir[$dir], $start);
-            }
-            if (isset($visited["{$y},{$x}"]) && array_search($dir, $visited["{$y},{$x}"]) !== false) {
+            } else if (isset($visited["{$next[0]},{$next[1]}"]) && array_search($next[2], $visited["{$next[0]},{$next[1]}"]) !== false) {
                 // we're on a path we've been on before, so we are in a loop
                 return true;
+            }
+            $curr = [$next[0], $next[1]];
+            $dir = $next[2];
+            if (!isset($visited["{$next[0]},{$next[1]}"])) {
+                $visited["{$next[0]},{$next[1]}"] = [];
+            }
+            if (array_search($dir, $visited["{$next[0]},{$next[1]}"]) === false) {
+                array_push($visited["{$next[0]},{$next[1]}"], $dir);
             }
         }
     }
@@ -178,11 +169,9 @@ class Day06
                 $next[2] = 'W';
             }
         } else {
-            throw new Error("Invalid direction: $dir");
+            Logger::error("Invalid direction: $dir");
+            throw new Exception();
         }
-        // if ($next[2] != $dir) {
-        //     Logger::log("turning {$next[2]}, now at [{$next[0]}, {$next[1]}]");
-        // }
         return $next;
     }
 }
