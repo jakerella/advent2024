@@ -14,6 +14,8 @@ class Day07
         $p2_sum = 0;
         foreach ($lines as $line_num => $line) {
             $equation = preg_split('/\:\s/', $line);
+            if (count($equation) !== 2) { continue; }
+
             $target = (int) $equation[0];
             $nums = array_map(function ($n) { return (int) $n; }, preg_split('/\s|\n/', $equation[1]));
             array_pop($nums); // stupid newlines
