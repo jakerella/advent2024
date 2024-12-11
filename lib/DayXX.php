@@ -6,16 +6,11 @@ use Advent\Logger;
 
 class DayXX
 {   
-    public function run($input) {
-        Logger::log("Day XX Start");
-        $lines = file($input);
-
+    public function run($lines) {
         $p1 = 0;
         foreach ($lines as $line_num => $line) {
-            $stuff = preg_split('/\n/', $line);
-            if (count($stuff) !== 2) { continue; } // last line
-            $input = $stuff[0];
-
+            // $stuff = preg_split('/\n/', $line);
+            // $stuff = str_split($line);
 
         }
 
