@@ -21,7 +21,9 @@ if (isset($argv[1])) {
     $day = "Advent\Day" . $argv[1];
 }
 
-Logger::debug("Running with input: {$argv[1]}");
-
+Logger::log("$day Start");
+$test = "";
+if ($argv[2] === "test") { $test = "-test"; }
+$lines = file("data/day{$argv[1]}$test.txt", FILE_IGNORE_NEW_LINES);
 $day = new $day();
-$day->run($argv[2]);
+$day->run($lines);

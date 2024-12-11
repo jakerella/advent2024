@@ -6,14 +6,10 @@ use Advent\Logger;
 
 class Day10
 {   
-    public function run($input) {
-        Logger::log("Day 10 Start");
-        $lines = file($input);
-
+    public function run($lines) {
         $map = [];
         foreach ($lines as $line_num => $line) {
             $nums = array_map(function($s) { return (int) $s; }, str_split($line));
-            array_pop($nums);
             array_push($map, $nums);
         }
 

@@ -6,10 +6,7 @@ use Advent\Logger;
 
 class Day03
 {   
-    public function run($input) {
-        Logger::log("Day 03 Start");
-        $lines = file($input);
-
+    public function run($lines) {
         $p1_sum = 0;
         foreach ($lines as $line_num => $line) {
             preg_match_all('/mul\(\d+,\d+\)/', $line, $matches);

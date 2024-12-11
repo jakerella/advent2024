@@ -6,23 +6,18 @@ use Advent\Logger;
 
 class Day05
 {   
-    public function run($input) {
-        Logger::log("Day 05 Start");
-        $lines = file($input);
-
+    public function run($lines) {
         $rules = [];
         $updates = [];
         foreach ($lines as $line_num => $line) {
-            $rule = preg_split('/\||\n/', $line);
-            array_pop($rule);
+            $rule = preg_split('/\|/', $line);
             if (count($rule) == 2) {
                 if (!isset($rules[$rule[0]])) {
                     $rules[$rule[0]] = [];
                 }
                 array_push($rules[$rule[0]], $rule[1]);
             } else {
-                $update = preg_split('/\,|\n/', $line);
-                array_pop($update);
+                $update = preg_split('/\,/', $line);
                 if (count($update) > 2) {
                     array_push($updates, $update);
                 }

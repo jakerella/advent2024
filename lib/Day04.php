@@ -6,19 +6,11 @@ use Advent\Logger;
 
 class Day04
 {
-    public function run($input) {
-        Logger::log("Day 04 Start");
-        $lines = file($input);
-
+    public function run($lines) {
         $puzzle = [];
         foreach ($lines as $line_num => $line) {
             $puzzle[$line_num] = str_split($line);
-            
-            if ($line_num == 0 || ($line_num > 0 && count($puzzle[$line_num]) > count($puzzle[0]))) {
-                array_pop($puzzle[$line_num]);
-            }
         }
-        // var_dump($puzzle);
         $count_words = 0;
         $count_x = 0;
         foreach ($puzzle as $y => $row) {

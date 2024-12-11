@@ -8,9 +8,8 @@ class Day11
 {   
     private $known = [];
 
-    public function run($input) {
-        Logger::log("Day 11 Start");
-        $stones = preg_split('/\s/', file($input)[0]);
+    public function run($lines) {
+        $stones = preg_split('/\s/', $lines[0]);
         $stones = array_map(function($n) { return (int) $n; }, $stones);
 
         // part 1 (brute force)

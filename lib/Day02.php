@@ -6,15 +6,11 @@ use Advent\Logger;
 
 class Day02
 {   
-    public function run($input) {
-        Logger::log("Day 02 Start");
-
+    public function run($lines) {
         $p1_safe = 0;
         $p2_safe = 0;
-        $lines = file($input);
         foreach ($lines as $line_num => $line) {
             $report = preg_split('/\s+/', $line);
-            array_pop($report);
             
             $safe = Day02::isSafe($report);
             if ($safe) {

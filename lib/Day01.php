@@ -6,12 +6,9 @@ use Advent\Logger;
 
 class Day01
 {   
-    public function run($input) {
-        Logger::log("Day 01 Start");
-
+    public function run($lines) {
         $list_one = [];
         $list_two = [];
-        $lines = file($input);
         foreach ($lines as $line_num => $line) {
             // Logger::log($line);
             $numbers = preg_split('/\s+/', $line);

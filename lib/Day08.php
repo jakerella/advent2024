@@ -6,16 +6,12 @@ use Advent\Logger;
 
 class Day08
 {   
-    public function run($input) {
-        Logger::log("Day 08 Start");
-        $lines = file($input);
-
+    public function run($lines) {
         $max_y = count($lines)-1;
         $max_x = 0;
         $antenna_types = [];
         foreach ($lines as $y => $line) {
             $nodes = str_split($line);
-            array_pop($nodes);
             $max_x = count($nodes)-1;
             foreach ($nodes as $x => $node) {
                 if ($node != '.') {

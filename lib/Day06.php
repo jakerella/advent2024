@@ -5,22 +5,17 @@ use Advent\Logger;
 
 class Day06
 {   
-    public function run($input) {
-        Logger::log("Day 06 Start");
-        $lines = file($input);
-
+    public function run($lines) {
         $dir = 'N';
         $pos = [];
         $map = [];
         $visited = [];
         foreach ($lines as $y => $line) {
             $map[$y] = str_split($line);
-            array_pop($map[$y]);
             foreach ($map[$y] as $x => $spot) {
                 if ($spot == '^') {
                     $pos[0] = $y;
                     $pos[1] = $x;
-                    Logger::log("starting at [$y, $x]");
                     array_push($visited, "$y,$x");
                 }
             }

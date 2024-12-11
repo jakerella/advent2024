@@ -6,10 +6,9 @@ use Advent\Logger;
 
 class Day09
 {   
-    public function run($input) {
-        Logger::log("Day 09 Start");
-        $disk = str_split(file($input)[0]);
-
+    public function run($lines) {
+        $disk = str_split($lines[0]);
+        
         $blocks = [];
         $files = [];
         $free = [];

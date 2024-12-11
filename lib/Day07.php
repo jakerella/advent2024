@@ -6,10 +6,7 @@ use Advent\Logger;
 
 class Day07
 {   
-    public function run($input) {
-        Logger::log("Day 07 Start");
-        $lines = file($input);
-
+    public function run($lines) {
         $p1_sum = 0;
         $p2_sum = 0;
         foreach ($lines as $line_num => $line) {
@@ -17,8 +14,7 @@ class Day07
             if (count($equation) !== 2) { continue; }
 
             $target = (int) $equation[0];
-            $nums = array_map(function ($n) { return (int) $n; }, preg_split('/\s|\n/', $equation[1]));
-            array_pop($nums); // stupid newlines
+            $nums = array_map(function ($n) { return (int) $n; }, preg_split('/\s/', $equation[1]));
             if (Day07::addOrMultiply($target, $nums)) {
                 $p1_sum += $target;
             }
@@ -28,8 +24,6 @@ class Day07
         }
 
         Logger::log("Part 1: $p1_sum");
-        // 248427118235085 too low
-        // 248427118972289
         Logger::log("Part 2: $p2_sum");
     }
 
