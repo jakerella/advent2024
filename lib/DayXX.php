@@ -8,7 +8,7 @@ class DayXX
 {   
     public function run($lines) {
         $p1 = 0;
-        foreach ($lines as $line_num => $line) {
+        foreach ($lines as $i => $line) {
             // $stuff = preg_split('/\n/', $line);
             // $stuff = str_split($line);
 
