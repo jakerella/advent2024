@@ -22,8 +22,14 @@ if (isset($argv[1])) {
 }
 
 Logger::log("$day Start");
+$ts = microtime(true);
+
 $test = "";
 if ($argv[2] === "test") { $test = "-test"; }
 $lines = file("data/day{$argv[1]}$test.txt", FILE_IGNORE_NEW_LINES);
-$day = new $day();
-$day->run($lines);
+$runner = new $day();
+$runner->run($lines);
+
+$te = microtime(true);
+$t = round($te - $ts, 3);
+Logger::log("$day ran for {$t}s");
