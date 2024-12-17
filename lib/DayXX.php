@@ -5,7 +5,7 @@ namespace Advent;
 use Advent\Logger;
 
 class DayXX
-{   
+{
     public function run($lines) {
         $p1 = 0;
         foreach ($lines as $i => $line) {
